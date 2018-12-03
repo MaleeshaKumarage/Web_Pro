@@ -1,0 +1,134 @@
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.modal{
+
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background: rgba(0,0,0,0.4); */
+  position: absolute;
+  top:50%;
+  left: 50%;
+  z-index: 1;
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  /* display: none; */
+}
+
+.modal h1{
+  margin: 0 0 40px;
+  padding: 0;
+  color:blue;
+
+}
+
+.modal input{
+
+padding: 10px 0;
+margin-bottom: 30px;
+ width: 100%;
+ box-sizing: border-box;
+ box-shadow: none;
+ outline: none;
+ border: none;
+ border-bottom: 2px solid #999;
+ color: black;
+ background-color:transparent;
+}
+
+.modal form div{
+position: relative;
+
+}
+
+.modal form div label{
+position: absolute;
+top: 10px;
+left: 0;
+color: #f7497d;
+transition: .5s;
+pointer-events: none;
+
+}
+
+.modal input: focus ~ label,
+.modal input: valid ~ label{
+top: -12px;
+left:0;
+color: #f7497d;
+font-size: 12px;
+font-weight: bold;
+
+}
+/* .input-group{
+
+  position:relative;
+  margin:40px auto;
+} */
+/*.modal input:focus{
+  outline: none;
+  border-width:2px;
+  border-color:blue;
+  transition: all .10s ease-out;
+
+}
+
+.modal input:focus ~ label{
+  top: -15px;
+  color:blue;
+  font-size:12px;
+  transition: all .10s ease-out;
+
+} */
+
+.modal input: focus,
+.modal input: valid{
+
+border-bottom: 2px solid #f7497d;
+
+}
+button {
+   background-color: #00008B;
+   color: black;
+   padding: 14px 20px;
+   margin: 8px 0;
+   border: none;
+   cursor: pointer;
+   width: 100%;
+   opacity: 0.9;
+}
+
+button:hover {
+   opacity:0.8;
+}
+
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+   padding: 14px 20px;
+   background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+ float: left;
+ width: 50%;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}

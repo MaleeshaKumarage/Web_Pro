@@ -1,0 +1,849 @@
+<?php
+
+session_start();
+
+if(isset($_POST['create']))
+{
+
+$userName= filter_input(INPUT_POST,'userName');
+$email= filter_input(INPUT_POST,'email');
+$password= filter_input(INPUT_POST,'password');
+$designation= filter_input(INPUT_POST,'designation');
+$linkedinUrl= filter_input(INPUT_POST,'linkedinUrl');
+
+/*
+$cv=$_FILES['myFile']['name'];
+$tmp_cv=$_FILES['myFile']['tmp_name'];
+*/
+
+
+//move_uploaded_file($tmp_cv,"cvs/$cv");
+
+if(!empty($userName) || !empty($email) || !empty($password)|| !empty($designation)|| !empty($linkedinUrl)){
+  $host= "localhost";
+  $dbUsername="root";
+  $dbPassword="";
+  $dbname="signupdetails";
+
+    $conn=new mysqli($host,$dbUsername,$dbPassword,$dbname);
+
+    if(mysqli_connect_error()){
+      die('Connect Error('.mysqli_connect_errno().')'.mysqli_connect_error());
+  }
+  else{
+    $sql="INSERT INTO useraccounts(`userName`,`email`,`password`,`designation`,`linkedinUrl`) values('$userName','$email','$password','$designation','$linkedinUrl')";
+    if($conn->query($sql)){
+    echo "new record is insertered";
+
+  }
+  else{
+    echo "error".$sql."<br>".$conn->error;
+
+  }
+  $conn->close();
+
+}
+
+}
+
+else {
+
+  if (empty($userName)) {
+    $_SESSION['nameErr'] = "Usere Name is required";
+  }
+
+  if (empty($email)) {
+    $_SESSION['emailErr'] = "Email is required";
+  }
+
+  if (empty($password)) {
+    $_SESSION['passwordErr'] = "Password is required";
+  }
+
+  if (empty($designation)) {
+    $_SESSION['designationErr'] = "Designation is required";
+  }
+
+  if (empty($linkedinUrl)) {
+    $_SESSION['linkedinUrlErr'] = "linkedin Url is required";
+  }
+
+
+
+}
+
+}
+?>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en-US">
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--><!--<![endif]-->
+    <head>
+    	<!-- meta character set -->
+    <meta charset="utf-8">
+	  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+        content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>PENTACODE</title>
+
+    <link rel="stylesheet" href="style.css">
+		<!-- CSS -->
+
+			<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+		<!-- Fontawesome Icon font -->
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+		<!-- bootstrap.min -->
+        <link rel="stylesheet" href="css/jquery.fancybox.css">
+		<!-- bootstrap.min -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+		<!-- bootstrap.min -->
+        <link rel="stylesheet" href="css/owl.carousel.css">
+		<!-- bootstrap.min -->
+        <link rel="stylesheet" href="css/slit-slider.css">
+		<!-- bootstrap.min -->
+        <link rel="stylesheet" href="css/animate.css">
+		<!-- Main Stylesheet -->
+        <link rel="stylesheet" href="css/main.css">
+    <!-- login form -->
+        <!-- <link rel="stylesheet" href="css/login.css"> -->
+    <!-- signin form -->
+          <link rel="stylesheet" href="css/signin.css">
+           <link rel="stylesheet" href="css/log.css">
+    <!-- zoom
+              <link rel="stylesheet" href="zoom.css"> -->
+    <!-- modal
+            <link rel="stylesheet" href="modal.css">
+
+            <script src="modal.js"></script> -->
+		<!-- Modernizer Script for old Browsers -->
+        <script src="js/modernizr-2.6.2.min.js"></script>
+    <!-- zoom -->
+          <!--    <script src="zoom.js"></script> -->
+    <!-- download pdf -->
+        <script src="downloadpdf.js"></script>
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="./css/lity.min.css">
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="./js/lity.min.js"></script>
+
+
+<script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+		<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+		ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+
+    </head>
+
+    <body id="body">
+
+      <script>
+
+var dataLength = 96;
+
+  var phArray = [];
+  var phDateTime = [];
+  var tempArray = [];
+  var turbArray = [];
+
+  $.ajax({
+    url: "http://bithub.lk/apitest/get_data.php"
+  }).done(function(data) {
+
+    var obj = JSON.parse(data);
+
+    for(var i = 0; i < dataLength; i++) {
+      phArray.push(((obj[i]['pH_Tap_2'])/10).toFixed(1));
+      phDateTime.push((obj[i]['date_time']).split(" ")[1]);
+      tempArray.push(obj[i]['temp_Tap_1']);
+      turbArray.push(obj[i]['turb_Tap_1']);
+    }
+  });
+
+</script>
+
+
+        <!-- Fixed Navigation -->
+        <header id="navigation" class="navbar-inverse navbar-fixed-top animated-header">
+            <div class="container">
+                <div class="navbar-header">
+                    <!-- responsive nav button -->
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></button>
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+
+					<!-- /responsive nav button -->
+
+					<!-- logo -->
+					<h1 class="navbar-brand">
+						<a href="#body">PENTACODE</a>
+					</h1>
+					<!-- /logo -->
+                </div>
+
+				<!-- main nav -->
+                <nav class="collapse navbar-collapse navbar-right" role="navigation">
+                    <ul id="nav" class="nav navbar-nav">
+                        <li><a href="#body">Home</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#realtime">Real Time Analysis</a></li>
+
+                        <li><a href="#social">Follow Us</a></li>
+                        <li><a href="#testimonials">Login</a></li>
+                        <li><a href="#inline" data-lity>Help</a></li>
+                    <!--    <button class="button" id="mybtn">Help</button>
+                          <div class="modal" id="mymodal">
+                          <div class="modal-content"></div>
+                        </div> -->
+
+                        <div id="inline" style="background:#fff" class="lity-hide">
+                          <video width="600" align="center" height="600" controls>
+                          <source src="pentacode video.webm" type="video/webm">
+                          </video>
+                        </div>
+
+                        <div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                        <!-- function myfuction(){
+
+                          <video width="320" height="240" controls>
+  <source src="pentacode video.webm" type="video/webm">
+</video>
+} -->
+
+                      <!-- <li><a href="#contact">Contact Us</a></li> -->
+
+                    </ul>
+                </nav>
+				<!-- /main nav -->
+
+            </div>
+        </header>
+        <!--
+        End Fixed Navigation
+        ==================================== -->
+
+		<main class="site-content" role="main">
+
+        <!--
+        Home Slider
+        ==================================== -->
+
+		<section id="home-slider">
+            <div id="slider" class="sl-slider-wrapper">
+
+				<div class="sl-slider">
+
+					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+
+						 <div><img src="water.jpg"></div>
+
+
+						<div class="slide-caption">
+                            <div class="caption-content">
+                                <h2 class="animated fadeInDown">To visualize the patterns of</h2>
+                                <span class="animated fadeInDown">water quality parameters</span>
+
+                            </div>
+                        </div>
+
+					</div>
+
+					<div class="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+
+							 <div><img src="water8.png" width="100%" height="10%"></div>
+						<div class="slide-caption">
+                            <div class="caption-content">
+                                <h2>To visualize the patters of</h2>
+                                <span>water quality parameters</span>
+
+                            </div>
+                        </div>
+
+					</div>
+
+					<div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+
+						<div class="bg-img bg-img-3"></div>
+						<div class="slide-caption">
+                            <div class="caption-content">
+                                <h2>To visualize the patters of</h2>
+                                <span>water quality parameters</span>
+                                <a href="#" class="btn btn-blue btn-effect">Join US</a>
+                            </div>
+                        </div>
+
+					</div>
+
+				</div><!-- /sl-slider -->
+
+                <!--
+                <nav id="nav-arrows" class="nav-arrows">
+                    <span class="nav-arrow-prev">Previous</span>
+                    <span class="nav-arrow-next">Next</span>
+                </nav>
+                -->
+
+                <nav id="nav-arrows" class="nav-arrows hidden-xs hidden-sm visible-md visible-lg">
+                    <a href="javascript:;" class="sl-prev">
+                        <i class="fa fa-angle-left fa-3x"></i>
+                    </a>
+                    <a href="javascript:;" class="sl-next">
+                        <i class="fa fa-angle-right fa-3x"></i>
+                    </a>
+                </nav>
+
+
+				<nav id="nav-dots" class="nav-dots visible-xs visible-sm hidden-md hidden-lg">
+					<span class="nav-dot-current"></span>
+					<span></span>
+					<span></span>
+				</nav>
+
+			</div><!-- /slider-wrapper -->
+		</section>
+
+        <!--
+        End Home SliderEnd
+        ==================================== -->
+
+        <div id="particles-js"></div>
+        <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+         <script>
+           particlesJS.load('particles-js','particles.json.js', function(){
+             console.log('particles.json loaded...');
+           });
+        </script>
+
+			<!-- about section -->
+			<section id="about" >
+        	<div class="container">
+					<div class="row">
+            	<div class="col-md-4 wow animated fadeInLeft">
+							<div class="recent-works">
+								<h3>About Us</h3>
+								<div id="works">
+									<div class="work-item">
+										<p>We are a pentacode.
+Undergraduates from Rajarata University of Sri Lanka, Faculty of Applied Sciences.
+Enthusiasm towards the Informaion technology applications to day today life has driven
+us to do this project.
+Our goal is to make life easier of the research groups who are dealing with
+water quality parametric data to recognize what is much suitable for drinking purposes.<br> <br></p>
+									</div>
+									<div class="work-item">
+
+									</div>
+									<div class="work-item">
+									</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-7 col-md-offset-1 wow animated fadeInRight">
+							<div class="welcome-block">
+								<h3>Welcome To Our Site</h3>
+						     	 <div class="message-body">
+									<img src="water.jpg" class="pull-left" alt="member">
+						       		<p> Here you can see the general view of our website.
+If you are a scientist or a researcher who is interested about researching,
+recognizing the patterns of water quality parameters,
+to view the advanced options in our website,
+ you can sign up here. Thank you.
+
+ </p>
+						     	 </div>
+						       	<!-- <a href="#" class="btn btn-border btn-effect pull-right">Read More</a> -->
+						    </div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end about section -->
+
+
+			<!-- Team section -->
+			<section id="team">
+				<div class="container">
+					<div class="row">
+
+						<div class="sec-title text-center">
+							<h2 class="wow animated bounceInLeft">Our Team</h2>
+							<p class="wow animated bounceInRight">Undergratuates from Rajarata University of Sri Lanka</p>
+						</div>
+
+						<div class="col-md-4 col-sm-8 col-xs-12 text-center wow animated zoomIn">
+							<div class="service-item">
+								<div class="service-icon">
+									<img src="maleesha.jpg" width="150" height="150">
+								</div>
+								<h3><br><br><br><br>Maleesha Kumarage</h3>
+								<h4>Team Leader</h4>
+								<p>leads the team.Knowledge digger with potential to learn and do guide forthe best</p>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-sm-6 col-xs-12 text-center wow animated zoomIn">
+							<div class="service-item">
+								<div class="service-icon">
+									<img src="koshila.jpg" width="150" height="150">
+								</div>
+								<h3><br><br><br><br>Koshila Wijesinghe</h3>
+								<p>one of the girl powers in the team with best designing Knowledge and sight</p>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-sm-8 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.6s">
+							<div class="service-item">
+								<div class="service-icon">
+									<img src="yasas.jpg" width="150" height="150">
+								</div>
+								<h3><br><br><br><br>Yasas Adikari</h3>
+								<p> Another high potential team member with designing skills who gives his fullest support for the team progress. </p>
+							</div>
+						</div>
+
+					<div class="col-md-4 col-sm-8 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.6s">
+							<div class="service-item">
+								<br><br><br><div class="service-icon">
+									<img src="Lasuni.jpg" width="150" height="150">
+								</div>
+								<h3><br><br><br><br>Lasuni Amarathunga</h3>
+								<p>Other girl power in the crew.Deals with the hardware design and implementation</p>
+							</div>
+						</div>
+
+						<div class="col-md-4 col-sm-8 col-xs-12 text-center wow animated zoomIn" data-wow-delay="0.9s">
+							<div class="service-item">
+								<br><br><br><div class="service-icon">
+									<img src="sachith.jpg" width="150" height="150">
+								</div>
+
+								<h3><br><br><br><br>Sachith Franando</h3>
+								<p>Working with the hardware implementation.Device plays the pivotal role in this project and same as Sachith </p>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- end Team section -->
+
+
+			<!-- realtime section -->
+			<section id="realtime">
+				<div class="container">
+					<div class="row">
+
+						<div class="sec-title text-center wow animated fadeInDown">
+							<h2>Real Time Visualization</h2>
+							<p>The patterns between 3 water quality parameters with respect to time (last 24 hours)</p>
+						</div>
+
+
+
+					</div>
+<center>
+          <div class="zoom">
+            <table>
+              <tr>
+                <th>
+                  <canvas id="myChart1" width=440% ></canvas>
+                  <script>
+                  var ctx = document.getElementById("myChart1").getContext('2d');
+
+                      var myChart = new Chart(ctx, {
+                          type: 'line',
+                          data: {
+                              labels: phDateTime,
+                              datasets: [{
+                                  label: 'pH readings vs time',
+                                  data: phArray,
+                                  backgroundColor: [
+                                      'rgba(255, 99, 132, 0.2)',
+                                      'rgba(54, 162, 235, 0.2)',
+                                      'rgba(255, 206, 86, 0.2)',
+                                      'rgba(75, 192, 192, 0.2)',
+                                      'rgba(153, 102, 255, 0.2)',
+                                      'rgba(255, 159, 64, 0.2)'
+                                  ],
+                                  borderColor: [
+                                      'rgba(255,99,132,1)',
+                                      'rgba(54, 162, 235, 1)',
+                                      'rgba(255, 206, 86, 1)',
+                                      'rgba(75, 192, 192, 1)',
+                                      'rgba(153, 102, 255, 1)',
+                                      'rgba(255, 159, 64, 1)'
+                                  ],
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  yAxes: [{
+                                      ticks: {
+                                          beginAtZero:true
+                                      }
+                                  }]
+                              }
+                          }
+                      });
+
+
+                  </script>
+        </th>
+</tr>
+<tr>
+<td>
+  <canvas id="myChart2" width=440%></canvas>
+            <script>
+            var ctx = document.getElementById("myChart2").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: phDateTime,
+                    datasets: [{
+                        label: 'Temperature readings vs time',
+                        data: tempArray,
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor:[
+                            'rgba(28,26,105,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+            </script>
+
+</td>
+</tr>
+<tr>
+  <td>
+  <canvas id="myChart3" width=440%></canvas>
+            <script>
+            var ctx = document.getElementById("myChart3").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: phDateTime,
+                    datasets: [{
+                        label: 'Turbidity readings vs time',
+                        data: turbArray,
+                        backgroundColor: [
+                                   'rgba(61, 202, 117, 0.2)',
+                                   'rgba(54, 162, 235, 0.2)',
+                                   'rgba(255, 206, 86, 0.2)',
+                                   'rgba(75, 192, 192, 0.2)',
+                                   'rgba(153, 102, 255, 0.2)',
+                                   'rgba(255, 159, 64, 0.2)'
+                               ],
+                             borderColor: [
+                                 'rgba(26,105,58,1)',
+                                 'rgba(54, 162, 235, 1)',
+                                 'rgba(255, 206, 86, 1)',
+                                 'rgba(75, 192, 192, 1)',
+                                 'rgba(153, 102, 255, 1)',
+                                 'rgba(255, 159, 64, 1)'
+                             ],
+                             borderWidth: 0.9
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            zingchart.render({
+              id: 'myChart1',
+              data: myChart,
+              height: "100%",
+              width: "100%"
+            });
+            </script>
+  </td>
+</tr>
+
+</table>
+</div>
+</center>
+				</div>
+			</section>
+			<!-- real time section -->
+
+			<!-- Testimonial section -->
+			<section id="testimonials" class="parallax">
+				<div class="overlay">
+					<div class="container">
+						<div class="row">
+
+						<!--	<div class="sec-title text-center white wow animated fadeInDown">
+								<h2>Login</h2>
+							</div> -->
+  <button onclick="document.getElementById('id01').style.display='block'" style="width:Center;  color: #fff;">Login</button>
+<div id="id01" class="modal" width:"50%">
+
+  <form class="modal-content animate" action="login.php" method="POST">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+    </div>
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="userName" required style="color: #000;">
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required style="color: #000;">
+
+
+
+    </div>
+
+  <div class="clearfix" style="background-color:#f1f1f1">
+      <button type="submit" class="loginbtn">Login</button>
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+</div>
+
+
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+<button onclick="document.getElementById('id02').style.display='block'" style="width:center;  color: #fff;">Sign Up</button>
+
+<div id="id02" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+
+
+
+      <form class="modal-content" action="insert1.php" method="POST" enctype="multipart/form-data">
+        <div>
+        <h1>Sign Up</h1>
+        <p>Please fill in this form to create an account.</p>
+        <br>
+<br>
+      <div>
+      <label for="username"><b> User Name *</b><?php echo $_SESSION['nameErr'] ?></label>
+
+      <input type="text" placeholder="This is what you'll use to login" name="userName" >
+     </div>
+<br>
+       <div>
+      <label for="email"><b>Email Address *</b><?php echo $_SESSION['emailErr'] ?></label>
+      <input type="email" placeholder="xxxxxx@xxxx.com" name="email" >
+    </div>
+<br>
+     <div>
+      <label for="psw"><b>Password *</b><?php echo $_SESSION['passwordErr'] ?></label>
+      <input type="password" placeholder="8 characters or longer" name="password" >
+    </div>
+<br>
+     <div>
+      <label for="Designation"><b>Current Designation *</b><?php echo $_SESSION['designationErr'] ?></label>
+      <input type="text" placeholder="current designation"  name="designation" >
+    </div>
+<br>
+      <div>
+      <label for="linkedinUrl"><b>LinkedIn Url or upload you CV (curriculum vitae) in pdf formate *</b><?php echo $_SESSION['linkedinUrlErr'] ?></label>
+      <input type="url" name="linkedinUrl">
+    </div>
+
+<input type="file" name="myFile" id="myFile" >
+    <script>
+    function myFunctionx() {
+        var x = document.createElement("INPUT");
+
+        document.body.appendChild(x);
+    }
+    </script>
+<div> <p class="reqiredfld">* Required feilds </p> </div>
+      <p style="color:red">By creating an account you agree to our <a href="#" style="color:red">Terms & Privacy</a>.</p>
+
+      <div class="clearfix">
+      <button type="submit" class="signupbtn">Create Account</button>
+        <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id02');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end Testimonial section -->
+
+
+			<!-- Social section -->
+			<section id="social" class="parallax">
+				<div class="overlay">
+					<div class="container">
+						<div class="row">
+
+							<div class="sec-title text-center white wow animated fadeInDown">
+								<h2>FOLLOW US</h2>
+								<p>Follow us to keep in touch..</p>
+							</div>
+
+							<ul class="social-button">
+								<li class="wow animated zoomIn"><a href="https://www.facebook.com/Pentacode-743262939354602"><i class="fa fa-facebook fa-2x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="https://pentacoderusl.blogspot.com/"><i class="fa fa-rss fa-2x" aria-hidden="true"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="https://www.linkedin.com/in/pentacode-team-675955173/"><i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+
+
+			</section>
+			<!-- end Social section -->
+
+
+
+
+
+
+		<!--	<section id="google-map">
+				<div id="map-canvas" class="wow animated fadeInUp"></div>
+			</section> -->
+
+		</main>
+
+
+
+		<footer id="footer">
+			<div class="container">
+				<div class="row text-center">
+					<div class="footer-content">
+						<div class="wow animated fadeInDown">
+							<p>PENTACODE</p>
+							<p>Hope you had a great experience.</p>
+						</div>
+					<!--	<form action="#" method="post" class="subscribe-form wow animated fadeInUp">
+							<div class="input-field">
+								<input type="email" class="subscribe form-control" placeholder="Enter Your Email...">
+								<button type="submit" class="submit-icon">
+									<i class="fa fa-paper-plane fa-lg"></i>
+								</button>
+							</div>
+						</form>
+						<div class="footer-social">
+							<ul>
+								<li class="wow animated zoomIn"><a href="#"><i class="fa fa-thumbs-up fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.3s"><a href="#"><i class="fa fa-twitter fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.6s"><a href="#"><i class="fa fa-skype fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="0.9s"><a href="#"><i class="fa fa-dribbble fa-3x"></i></a></li>
+								<li class="wow animated zoomIn" data-wow-delay="1.2s"><a href="#"><i class="fa fa-youtube fa-3x"></i></a></li>
+							</ul>
+						</div> -->
+
+
+						<p>Copyright &copy; 2018 Design and Developed By <a href="http://www.themefisher.com">PENTACODE</a> </p>
+					</div>
+				</div>
+			</div>
+
+
+		</footer>
+
+
+
+		<!-- Essential jQuery Plugins
+		================================================== -->
+		<!-- Main jQuery -->
+        <script src="js/jquery-1.11.1.min.js"></script>
+		<!-- Twitter Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+		<!-- Single Page Nav -->
+        <script src="js/jquery.singlePageNav.min.js"></script>
+		<!-- jquery.fancybox.pack -->
+        <script src="js/jquery.fancybox.pack.js"></script>
+		<!-- Google Map API -->
+		<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<!-- Owl Carousel -->
+        <script src="js/owl.carousel.min.js"></script>
+        <!-- jquery easing -->
+        <script src="js/jquery.easing.min.js"></script>
+        <!-- Fullscreen slider -->
+        <script src="js/jquery.slitslider.js"></script>
+        <script src="js/jquery.ba-cond.min.js"></script>
+		<!-- onscroll animation -->
+        <script src="js/wow.min.js"></script>
+		<!-- Custom Functions -->
+        <script src="js/main.js"></script>
+
+
+    </body>
+</html>
